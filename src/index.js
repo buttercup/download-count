@@ -1,5 +1,4 @@
 const { createServer } = require("http");
-const { resolve } = require("path");
 const badge = require("gh-badges");
 const fetch = require("node-fetch");
 const path = require("path");
@@ -54,7 +53,7 @@ function showSvg(res, config, cached = true) {
 }
 
 const app = createServer((req, res) => {
-  badge.loadFont(resolve(__dirname, "../assets/DejaVuSans.ttf"), err => {
+  badge.loadFont(path.resolve(__dirname, "../assets/DejaVuSans.ttf"), err => {
     getDownloadCount()
       .then(count => {
         showSvg(res, {
