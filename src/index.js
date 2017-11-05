@@ -40,12 +40,15 @@ function handleError(err, res) {
   return res.end("Server Error", err);
 }
 
-function showSvg(res, config) {
+function showSvg(res, config, cached = true) {
   badge(Object.assign({}, baseConfig, config), (svg, err) => {
     if (err) {
       return handleError(err, res);
     }
-    res.setHeader("content-type", "image/svg+xml;charset=utf-8");
+    res.setHeader("Content-Type", "image/svg+xml;charset=utf-8");
+    if (cached) {
+      res.setHeader("Cache-Control", "public, max-age=1800"); // half an hour
+    }
     res.end(svg);
   });
 }
@@ -60,10 +63,14 @@ const app = createServer((req, res) => {
         });
       })
       .catch(err =>
-        showSvg(res, {
-          text: ["downloads", "unavailable"],
-          colorscheme: "red"
-        })
+        showSvg(
+          res,
+          {
+            text: ["downloads", "unavailable"],
+            colorscheme: "red"
+          },
+          false
+        )
       );
   });
 });
