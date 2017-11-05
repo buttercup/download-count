@@ -54,7 +54,7 @@ function showSvg(res, config, cached = true) {
 }
 
 const app = createServer((req, res) => {
-  badge.loadFont(resolve(__dirname, "../assets/Verdana.ttf"), err => {
+  badge.loadFont(resolve(__dirname, "../assets/DejaVuSans.ttf"), err => {
     getDownloadCount()
       .then(count => {
         showSvg(res, {
